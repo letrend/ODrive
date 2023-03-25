@@ -236,12 +236,14 @@ board_v3 = {
     include = {stm32f4xx_hal_pkg},
     include_dirs = {
         'Inc',
+        '../../Drivers/DRV8311',
         '../../ThirdParty/FreeRTOS/Source/portable/GCC/ARM_CM4F',
     },
     code_files = {
         'startup_stm32f405xx.s',
         '../../ThirdParty/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c',
         '../../Drivers/DRV8301/drv8301.cpp',
+        '../../Drivers/DRV8311/drv8311.cpp',
         'board.cpp',
         'Src/stm32f4xx_hal_timebase_TIM.c',
         'Src/tim.c',

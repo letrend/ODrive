@@ -36,14 +36,14 @@ UART_HandleTypeDef* uart_a = &huart4;
 UART_HandleTypeDef* uart_b = &huart2; // TODO: this could be supported in ODrive v3.6 (or similar) using STM32's USART2
 UART_HandleTypeDef* uart_c = nullptr;
 
-Drv8301 m0_gate_driver{
+Drv8311 m0_gate_driver{
     &spi3_arbiter,
     {M0_nCS_GPIO_Port, M0_nCS_Pin}, // nCS
     {}, // EN pin (shared between both motors, therefore we actuate it outside of the drv8301 driver)
     {nFAULT_GPIO_Port, nFAULT_Pin} // nFAULT pin (shared between both motors)
 };
 
-Drv8301 m1_gate_driver{
+Drv8311 m1_gate_driver{
     &spi3_arbiter,
     {M1_nCS_GPIO_Port, M1_nCS_Pin}, // nCS
     {}, // EN pin (shared between both motors, therefore we actuate it outside of the drv8301 driver)

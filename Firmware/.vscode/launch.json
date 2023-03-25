@@ -5,6 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceRoot}/build/ODriveFirmware.elf",
+            "name": "Debug with JLink",
+            "request": "launch",
+            "type": "cortex-debug",
+            "device": "STM32F405RG",
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none",
+            "servertype": "jlink",
+            "svdFile": "${workspaceRoot}/Board/v3/STM32F40x.svd",
+        },
+        {
             // For the Cortex-Debug extension
             "type": "cortex-debug",
             "servertype": "openocd",

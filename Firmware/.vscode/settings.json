@@ -1,6 +1,7 @@
 {
     "C_Cpp.intelliSenseEngine": "Default",
     "C_Cpp.intelliSenseEngineFallback": "Disabled",
+    "cortex-debug.gdbPath": "gdb-multiarch" ,
     "files.associations": {
         "memory": "cpp",
         "utility": "cpp",

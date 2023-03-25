@@ -10,6 +10,7 @@
 #include <communication/interface_uart.h>
 #include <communication/interface_i2c.h>
 #include <communication/interface_can.hpp>
+// #include "DRV8311/drv8311.h"
 
 osSemaphoreId sem_usb_irq;
 osMessageQId uart_event_queue;
