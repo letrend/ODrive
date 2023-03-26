@@ -7,6 +7,7 @@
 #include <Drivers/gate_driver.hpp>
 #include <Drivers/STM32/stm32_spi_arbiter.hpp>
 #include <Drivers/STM32/stm32_gpio.hpp>
+#include "drv8311.h"
 
 
 class Drv8311 : public GateDriverBase, public OpAmpBase {
@@ -118,6 +119,20 @@ private:
     /** @brief Writes data to a DRV8311 register. There is no check if the write succeeded. */
     bool write_reg(const RegName_e regName, const uint16_t data);
 
+    //! \brief     Initialize the interface to all 8316 SPI variables
+    void setupSPI(DRV8311_SPIVars_t *DRV8311SPIVars);
+
+    //! \brief     Reads data from the DRV8311 register
+    //! \param[in] regAddr  The register address
+    //! \return    The data value
+    uint16_t readSPI( const DRV8311_Address_e regAddr);
+
+    //! \brief     Writes data to the DRV8311 register
+    //! \param[in] regAddr  The register name
+    //! \param[in] data     The data value
+    bool writeSPI(const DRV8311_Address_e regAddr,
+                         const uint16_t data);
+
     static const SPI_InitTypeDef spi_config_;
 
     // Configuration
@@ -132,7 +147,7 @@ private:
 
     // We don't put these buffers on the stack because we place the stack in
     // a RAM section which cannot be used by DMA.
-    uint16_t tx_buf_, rx_buf_;
+    uint32_t tx_buf_, rx_buf_;
 
     enum {
         kStateUninitialized,

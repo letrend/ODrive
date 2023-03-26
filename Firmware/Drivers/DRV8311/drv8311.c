@@ -544,55 +544,55 @@ uint16_t DRV8311_readSPI(DRV8311_Handle handle,
 void DRV8311_writeSPI(DRV8311_Handle handle, const DRV8311_Address_e regAddr,
                       const uint16_t data)
 {
-//     DRV8311_Obj *obj = (DRV8311_Obj *)handle;
-//     uint16_t ctrlHeader = 0, ctrlWord = 0;
-//     uint16_t n;
+    DRV8311_Obj *obj = (DRV8311_Obj *)handle;
+    uint16_t ctrlHeader = 0, ctrlWord = 0;
+    uint16_t n;
 
-//     volatile uint16_t WaitTimeOut = 0;
+    volatile uint16_t WaitTimeOut = 0;
 
-//     volatile SPI_RxFIFOLevel RxFifoCnt = SPI_FIFO_RXEMPTY;
+    volatile SPI_RxFIFOLevel RxFifoCnt = SPI_FIFO_RXEMPTY;
 
-//     // build the control header
-//     ctrlHeader = (uint16_t)DRV8311_buildCtrlHeader(DRV8311_CTRLMODE_WRITE, regAddr);
-//     // build the control word
-//     ctrlWord   = (uint16_t)DRV8311_buildCtrlWord(data);
+    // build the control header
+    ctrlHeader = (uint16_t)DRV8311_buildCtrlHeader(DRV8311_CTRLMODE_WRITE, regAddr);
+    // build the control word
+    ctrlWord   = (uint16_t)DRV8311_buildCtrlWord(data);
 
-//     // reset the Rx fifo pointer to zero
-//     SPI_resetRxFIFO(obj->spiHandle);
-//     SPI_enableFIFO(obj->spiHandle);
+    // reset the Rx fifo pointer to zero
+    SPI_resetRxFIFO(obj->spiHandle);
+    SPI_enableFIFO(obj->spiHandle);
 
-//     GPIO_writePin(obj->gpioNumber_CS, 0);
+    GPIO_writePin(obj->gpioNumber_CS, 0);
 
-//     // wait for GPIO
-//     for(n = 0; n < 0x06; n++)
-//     {
-//         __asm(" NOP");
-//     }
+    // wait for GPIO
+    for(n = 0; n < 0x06; n++)
+    {
+        __asm(" NOP");
+    }
 
-//     // write the command //TODO
-// //    HWREGH(obj->spiHandle + SPI_O_TXBUF) = ctrlHeader << 8;
-// //    HWREGH(obj->spiHandle + SPI_O_TXBUF) = ctrlWord;
-// //    HWREGH(obj->spiHandle + SPI_O_TXBUF) = ctrlWord << 8;
+    // write the command //TODO
+//    HWREGH(obj->spiHandle + SPI_O_TXBUF) = ctrlHeader << 8;
+//    HWREGH(obj->spiHandle + SPI_O_TXBUF) = ctrlWord;
+//    HWREGH(obj->spiHandle + SPI_O_TXBUF) = ctrlWord << 8;
 
-//     SPI_writeDataNonBlocking(obj->spiHandle, ctrlHeader<<8);
-//     SPI_writeDataNonBlocking(obj->spiHandle, ctrlWord);
-//     SPI_writeDataNonBlocking(obj->spiHandle, ctrlWord<<8);
+    SPI_writeDataNonBlocking(obj->spiHandle, ctrlHeader<<8);
+    SPI_writeDataNonBlocking(obj->spiHandle, ctrlWord);
+    SPI_writeDataNonBlocking(obj->spiHandle, ctrlWord<<8);
 
-//     while(RxFifoCnt < SPI_FIFO_RX3)
-//     {
-//         RxFifoCnt = SPI_getRxFIFOStatus(obj->spiHandle);
+    while(RxFifoCnt < SPI_FIFO_RX3)
+    {
+        RxFifoCnt = SPI_getRxFIFOStatus(obj->spiHandle);
 
-//         if(++WaitTimeOut > 0xfffe)
-//         {
-//             obj->rxTimeOut = true;
-//         }
-//     }
+        if(++WaitTimeOut > 0xfffe)
+        {
+            obj->rxTimeOut = true;
+        }
+    }
 
-//     WaitTimeOut = 0xffff;
+    WaitTimeOut = 0xffff;
 
-//     GPIO_writePin(obj->gpioNumber_CS, 1);
+    GPIO_writePin(obj->gpioNumber_CS, 1);
 
-//     return;
+    return;
 }  // end of DRV8311_writeSPI() function
 
 

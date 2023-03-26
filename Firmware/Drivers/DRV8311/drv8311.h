@@ -1277,7 +1277,7 @@ static inline DRV8311_Word_t DRV8311_buildCtrlHeader(
 static inline DRV8311_Word_t DRV8311_buildCtrlWord(
                                             const uint16_t data)
 {
-    uint16_t parity;
+    uint16_t parity = 0;
     uint16_t temp = data;
 
     while(temp)
