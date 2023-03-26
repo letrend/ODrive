@@ -92,6 +92,38 @@ bool Drv8311::init() {
     // }
     DRV8311_SPIVars_t vars;
     setupSPI(&vars);
+    DRV8311_PWMG_CTRL_1D_t reg = vars.PWMG_CTRL_Reg_1D;
+    volatile float alpha;
+    writeSPI(DRV8311_ADDRESS_PWMG_CTRL,(1<<10));
+    writeSPI(DRV8311_ADDRESS_PWMG_PERIOD,100);
+    bool init = true;
+
+    // while(init){
+    //     writeSPI(DRV8311_ADDRESS_PWMG_A_DUTY,30);
+    //     writeSPI(DRV8311_ADDRESS_PWMG_B_DUTY,0);
+    //     writeSPI(DRV8311_ADDRESS_PWMG_C_DUTY,0);
+
+    //     writeSPI(DRV8311_ADDRESS_PWMG_A_DUTY,0);
+    //     writeSPI(DRV8311_ADDRESS_PWMG_B_DUTY,30);
+    //     writeSPI(DRV8311_ADDRESS_PWMG_C_DUTY,0);
+
+    //     writeSPI(DRV8311_ADDRESS_PWMG_A_DUTY,0);
+    //     writeSPI(DRV8311_ADDRESS_PWMG_B_DUTY,0);
+    //     writeSPI(DRV8311_ADDRESS_PWMG_C_DUTY,30);
+    // }
+    
+    
+    while(1){
+        auto [tA, tB, tC, success] = SVM(sin(alpha),cos(alpha));
+        alpha+=1;
+        float pwm_a = tA*10;
+        float pwm_b = tB*10;
+        float pwm_c = tC*10;
+        writeSPI(DRV8311_ADDRESS_PWMG_A_DUTY,pwm_a);
+        writeSPI(DRV8311_ADDRESS_PWMG_B_DUTY,pwm_b);
+        writeSPI(DRV8311_ADDRESS_PWMG_C_DUTY,pwm_c);
+        setupSPI(&vars);
+    }
 
     // Wait for configuration to be applied
     delay_us(100);
@@ -533,7 +565,7 @@ bool Drv8311::writeSPI(const DRV8311_Address_e regAddr, const uint16_t data){
     ctrlHeader = (uint16_t)DRV8311_buildCtrlHeader(DRV8311_CTRLMODE_WRITE, regAddr);
     // build the control word
     ctrlWord   = (uint16_t)DRV8311_buildCtrlWord(data);
-    tx_buf_ = ctrlHeader<<16|ctrlWord;
+    tx_buf_ = (0x0000|regAddr<<2)|ctrlWord<<16;
 
 
     if (!spi_arbiter_->transfer(spi_config_, ncs_gpio_, (uint8_t *)(&tx_buf_), (uint8_t *)(&rx_buf_), 2, 1000)) {

@@ -8,6 +8,7 @@
 #include <Drivers/STM32/stm32_spi_arbiter.hpp>
 #include <Drivers/STM32/stm32_gpio.hpp>
 #include "drv8311.h"
+#include "utils.hpp"
 
 
 class Drv8311 : public GateDriverBase, public OpAmpBase {
