@@ -197,6 +197,7 @@ void Drv8311::setupSPI(DRV8311_SPIVars_t *drv8311SPIVars){
     // Read registers for default values
     // Read Status Register 0
     drvRegAddr = DRV8311_ADDRESS_DEV_STS1;
+    
     drvDataNew = readSPI(drvRegAddr);
 
     drv8311SPIVars->DEV_STS1_Reg_00.FAULT         = (bool)(drvDataNew & (uint16_t)DRV8311_DEV_STS1_FAULT_BITS)?1:0;
@@ -513,7 +514,7 @@ uint16_t Drv8311::readSPI( const DRV8311_Address_e regAddr){
 
     // build the control header
     ctrlHeader = (uint16_t)DRV8311_buildCtrlHeader(DRV8311_CTRLMODE_READ, regAddr);
-    tx_buf_ = ctrlHeader<<8;
+    tx_buf_ = 0x8000|regAddr<<2;//ctrlHeader<<8;
 
     if (!spi_arbiter_->transfer(spi_config_, ncs_gpio_, (uint8_t *)(&tx_buf_), (uint8_t *)(&rx_buf_), 2, 1000)) {
         return false;
